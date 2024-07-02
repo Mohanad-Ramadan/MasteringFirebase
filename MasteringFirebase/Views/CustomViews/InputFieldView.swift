@@ -7,12 +7,44 @@
 
 import SwiftUI
 
-struct InputFieldView: View {
+enum TextFieldHolder: String {
+    case email = "example@gmail.com"
+    case password = "enter password"
+    case name = "ex. Harry Potter"
+}
+
+struct CSInputField: View {
+    
+    var isSecureField: Bool
+    @State var fieldTitle: String
+    @State var placeHolder: TextFieldHolder
+    @Binding var input: String
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 5) {
+            Text(fieldTitle)
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(.black.opacity(0.7))
+            if isSecureField {
+                SecureField(placeHolder.rawValue, text: $input)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            } else {
+                TextField(placeHolder.rawValue, text: $input)
+                    .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+        }
+        .padding(.bottom, 15)
     }
 }
 
 #Preview {
-    InputFieldView()
+    CSInputField(isSecureField: false, fieldTitle: "Email Address", placeHolder: .email, input: .constant("Hi"))
 }
