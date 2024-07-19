@@ -22,17 +22,21 @@ final class AuthenticationManager {
     func createNewUser(email: String, password: String, userName: String) async throws -> AuthDataResult {
         do {
             let authResults = try await Auth.auth().createUser(withEmail: email, password: password)
-            authResults.user.createProfileChangeRequest().displayName = userName
-            print(authResults.user.displayName as Any)
+            
+            // Set display name
+            let changeRequest = authResults.user.createProfileChangeRequest()
+            changeRequest.displayName = userName
+            try await changeRequest.commitChanges()
+            
+            // return if needed (basicly we will not use the returned object)
             return AuthDataResult(user: authResults.user)
         } catch {
-            print(error.localizedDescription)
             throw error
         }
     }
     
     @discardableResult
-    func signIn(email: String, password: String) async throws -> AuthDataResult {
+    func logeIn(email: String, password: String) async throws -> AuthDataResult {
         do {
             let authResults = try await Auth.auth().signIn(withEmail: email, password: password)
             return AuthDataResult(user: authResults.user)

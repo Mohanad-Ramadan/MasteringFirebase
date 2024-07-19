@@ -9,8 +9,8 @@ import SwiftUI
 
 enum TextFieldHolder: String {
     case email = "example@gmail.com"
-    case password = "enter password"
-    case name = "ex. Harry Potter"
+    case password = "enter a password"
+    case name = "ex: Harry Potter"
 }
 
 struct CSInputField: View {
@@ -27,11 +27,13 @@ struct CSInputField: View {
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .foregroundColor(.black.opacity(0.7))
+                .padding(.leading, 10)
             if isSecureField {
                 SecureField(placeHolder.rawValue, text: $input)
                     .padding()
                     .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .autocorrectionDisabled()
             } else {
                 TextField(placeHolder.rawValue, text: $input)
                     .autocapitalization(.none)
@@ -39,6 +41,7 @@ struct CSInputField: View {
                     .padding()
                     .background(Color(.systemGray6))
                     .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .autocorrectionDisabled()
             }
         }
         .padding(.bottom, 15)

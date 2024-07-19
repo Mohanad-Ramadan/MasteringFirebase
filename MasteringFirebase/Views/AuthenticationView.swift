@@ -7,29 +7,29 @@
 
 import SwiftUI
 
-enum SignViewType { case signInView, signUpView }
+enum SignViewType { case logeInView, signUpView }
 
 
 struct AuthenticationView: View {
     @EnvironmentObject var signViewModel: AuthViewModel
-    @State var animateSignIn: Bool = true
+    @State var animatelogeIn: Bool = true
     @State var animateSignUP: Bool = false
     // signView boolen computed property
-    var isSignInView: Bool { signViewModel.currentSignView == .signInView }
+    var islogeInView: Bool { signViewModel.currentSignView == .logeInView }
     
     // body
     var body: some View {
         NavigationStack{
             ZStack {
                 // Background Gradient
-                LinearGradient(gradient: Gradient(colors: [Color.signIn, Color.white]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [Color.logeIn, Color.white]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.all)
                 
-                SignInView()
+                LogeInView()
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 10)
-                    .offset(x: animateSignIn ? 0:-500)
+                    .offset(x: animatelogeIn ? 0:-500)
                     .padding()
                 
                 SignUpView()
@@ -39,10 +39,10 @@ struct AuthenticationView: View {
                     .offset(x: animateSignUP ? 0:500)
                     .padding()
             }
-            .onChange(of: isSignInView) { _, currentViewSignIn in
+            .onChange(of: islogeInView) { _, currentViewlogeIn in
                 withAnimation {
-                    animateSignIn = currentViewSignIn ? true:false
-                    animateSignUP = currentViewSignIn ? false:true
+                    animatelogeIn = currentViewlogeIn ? true:false
+                    animateSignUP = currentViewlogeIn ? false:true
                 }
             }
         }

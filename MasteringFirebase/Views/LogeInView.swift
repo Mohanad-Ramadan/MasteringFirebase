@@ -1,5 +1,5 @@
 //
-//  SignInView.swift
+//  logeInView.swift
 //  MasteringFirebase
 //
 //  Created by Mohanad Ramdan on 26/06/2024.
@@ -7,48 +7,43 @@
 
 import SwiftUI
 
-struct SignInView: View {
-    @EnvironmentObject private var signInViewModel: AuthViewModel
+struct LogeInView: View {
+    @EnvironmentObject private var logeInViewModel: AuthViewModel
     @Environment(\.dismiss) var dismissScreen
     
     var body: some View {
         VStack(spacing: 0) {
             //MARK: Title
-            VStack {
-                Text("Sign In")
+            VStack(alignment: .listRowSeparatorLeading, spacing: 5) {
+                Text("Login")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Text("Welcome Back! please fill your Detials.")
+                Text("Welcome Back!")
                     .font(.headline)
-                    .scaledToFit()
-                    .minimumScaleFactor(0.5)
                     .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity,alignment: .leading)
-                    .padding(.trailing, 10)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.bottom, 30)
             
             //MARK: - Email Text Feild
-            CSInputField(isSecureField: false, fieldTitle: "Email Address", placeHolder: .email, input: $signInViewModel.email)
+            CSInputField(isSecureField: false, fieldTitle: "Email Address", placeHolder: .email, input: $logeInViewModel.email)
             
 
             //MARK: - Password Feild
-            CSInputField(isSecureField: true, fieldTitle: "Password", placeHolder: .password, input: $signInViewModel.password)
+            CSInputField(isSecureField: true, fieldTitle: "Password", placeHolder: .password, input: $logeInViewModel.password)
             
             
-            //MARK: - SignIn Button
+            //MARK: - logeIn Button
             Button {
                 authecticateUser()
             } label: {
-                Text("Sign in")
+                Text("Login")
+                    .textCase(.uppercase)
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
                     .padding()
-                    .background(Color.signIn.gradient)
+                    .background(Color.logeIn.gradient)
             }
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .padding(.bottom, 10)
@@ -61,7 +56,7 @@ struct SignInView: View {
                     .fontWeight(.bold)
                 
                 Button {
-                    signInViewModel.currentSignView = .signUpView
+                    logeInViewModel.currentSignView = .signUpView
                 } label: {
                     Text("Sign up")
                         .foregroundColor(.blue)
@@ -77,7 +72,7 @@ struct SignInView: View {
                 
             } label: {
                 Text("Forgot Password")
-                    .foregroundColor(.signIn)
+                    .foregroundColor(.logeIn)
                     .font(.callout)
                     .fontWeight(.bold)
             }
@@ -110,9 +105,8 @@ struct SignInView: View {
     func authecticateUser() {
         Task {
             do {
-                try await signInViewModel.signIn()
+                try await logeInViewModel.logeIn()
                 dismissScreen()
-                print("user signed In")
             } catch {
                 print(error.localizedDescription)
             }
@@ -126,7 +120,7 @@ struct SignInView: View {
 #Preview {
     NavigationStack {
         let authMock = AuthViewModel()
-        SignInView()
+        LogeInView()
             .environmentObject(authMock)
     }
     

@@ -13,20 +13,21 @@ final class AuthViewModel: ObservableObject {
     @Published var password = ""
     @Published var userName = ""
     @Published var userAuthenticated: Bool
-    @Published var currentSignView: SignViewType = .signInView
+    @Published var currentSignView: SignViewType = .logeInView
+    
 
     init() {
         let currentUser = AuthenticationManager.shared.getAuthenticatedUser()
         userAuthenticated = currentUser != nil ? true: false
     }
     
-    func signIn() async throws {
+    func logeIn() async throws {
         guard !email.isEmpty, !password.isEmpty else {
             print("Email or Password is empty")
             return
         }
         
-        try await AuthenticationManager.shared.signIn(email: email ,password: password)
+        try await AuthenticationManager.shared.logeIn(email: email ,password: password)
         userAuthenticated = true
     }
     
