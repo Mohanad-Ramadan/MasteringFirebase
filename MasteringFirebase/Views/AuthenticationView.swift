@@ -29,22 +29,19 @@ struct AuthenticationView: View {
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 10)
-                    .offset(x: animatelogeIn ? 0:-500)
+                    .offset(x: islogeInView ? 0:-500)
                     .padding()
                 
                 SignUpView()
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(radius: 10)
-                    .offset(x: animateSignUP ? 0:500)
+                    .offset(x: !islogeInView ? 0:500)
                     .padding()
+                    .transition(.slide)
+                
             }
-            .onChange(of: islogeInView) { _, currentViewlogeIn in
-                withAnimation {
-                    animatelogeIn = currentViewlogeIn ? true:false
-                    animateSignUP = currentViewlogeIn ? false:true
-                }
-            }
+            .animation(.smooth(), value: islogeInView)
         }
     }
     
